@@ -25,7 +25,8 @@ public class MqttCallBack implements MqttCallback {
     private static final Logger log = LoggerFactory.getLogger(MqttCallBack.class);
     private RequestMessage requestMessage;
 
-    final static String countryPublishedTopic="countrySubscriptionTopic";
+    //final static String countryPublishedTopic="countrySubscriptionTopic";
+    private String publishedTopic;
     private static MqttClient mqttClient;
 
     static {
@@ -44,7 +45,7 @@ public class MqttCallBack implements MqttCallback {
 
         String incomingMessage,pubJsonString;
         ResponseMessage responseMessage = new ResponseMessage();
-        responseMessage.responseObj = "Country from Backend";
+        responseMessage.responseObj = this.publishedTopic;
 
 
 
@@ -58,7 +59,7 @@ public class MqttCallBack implements MqttCallback {
 
         pubJsonString = Core.jsonMapper.writeValueAsString(responseMessage);
         mqttMessage.setPayload(pubJsonString.getBytes());
-        mqttClient.publish(countryPublishedTopic,mqttMessage);
+        mqttClient.publish(publishedTopic,mqttMessage);
 
 
 
@@ -68,5 +69,9 @@ public class MqttCallBack implements MqttCallback {
     }
 
     public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
+    }
+
+    public void setPublishedTopic(String publishedTopic) {
+        this.publishedTopic = publishedTopic;
     }
 }
