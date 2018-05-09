@@ -1,0 +1,2 @@
+INSERT INTO "DefaultProductType" ("productTypeID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "businessID", "name") VALUES (1, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 1, 'Physical');
+INSERT INTO "DefaultProductType" ("productTypeID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "businessID", "name") VALUES (2, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 1, 'Services');

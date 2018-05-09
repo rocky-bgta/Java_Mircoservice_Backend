@@ -1,0 +1,43 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>tillboxweb.back.end.framework</artifactId>
+        <groupId>nybsys.tillboxweb</groupId>
+        <version>1.0-SNAPSHOT</version>
+        <!--<relativePath>../TillBox-Web-Back-End-Framework</relativePath>-->
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+
+    <artifactId>core.business.library</artifactId>
+    <packaging>jar</packaging>
+
+    <name>core.business.library</name>
+    <url>http://maven.apache.org</url>
+
+    <dependencies>
+        <dependency>
+            <groupId>nybsys.tillboxweb</groupId>
+            <artifactId>core.library</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <!-- Generic properties -->
+        <java.version>1.8</java.version>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
+<!--
+    <dependencies>
+        <dependency>
+            <groupId>nybsys.tillboxweb</groupId>
+            <artifactId>core.module</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+    </dependencies>-->
+</project>

@@ -1,0 +1,3 @@
+INSERT INTO "DefaultCashFlow" ("cashFlowID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "cashFlowName") VALUES (1, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 'Operating');
+INSERT INTO "DefaultCashFlow" ("cashFlowID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "cashFlowName") VALUES (2, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 'Investing');
+INSERT INTO "DefaultCashFlow" ("cashFlowID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "cashFlowName") VALUES (3, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 'Financing');

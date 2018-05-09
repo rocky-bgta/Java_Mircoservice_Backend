@@ -1,0 +1,3 @@
+INSERT INTO "DefaultProductCategory" ("productCategoryID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "businessID", "name") VALUES (1, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 1, 'Items');
+INSERT INTO "DefaultProductCategory" ("productCategoryID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "businessID", "name") VALUES (2, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 1, 'Services');
+INSERT INTO "DefaultProductCategory" ("productCategoryID", "createdBy", "createdDate", "status", "updatedBy", "updatedDate", "businessID", "name") VALUES (3, 'NybSys', '0001-1-1 00:00:00', 1, 'NybSys', '0001-1-1 00:00:00', 1, 'Software');
