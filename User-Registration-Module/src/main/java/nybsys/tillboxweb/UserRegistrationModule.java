@@ -2,6 +2,7 @@ package nybsys.tillboxweb;
 
 import nybsys.tillboxweb.broker.client.MqttCallBack;
 import nybsys.tillboxweb.broker.client.MqttUtils;
+import nybsys.tillboxweb.broker.client.TestMqttCallBack;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 
 /**
@@ -35,7 +36,15 @@ public class UserRegistrationModule extends Core {
     public static void main(String[] args) {
         MqttClient mqttClient;
         MqttCallBack mqttCallBack;
+        TestMqttCallBack testMqttCallBack;
         try {
+
+            //=============== Test ================
+            mqttClient = MqttUtils.getMqttClient();
+            testMqttCallBack = new TestMqttCallBack();
+            mqttClient.setCallback(testMqttCallBack);
+            mqttClient.subscribe(countrySubscriptionTopic, QoS);
+            //=============== Test ================
 
             //=============== County ================
             mqttClient = MqttUtils.getMqttClient();
