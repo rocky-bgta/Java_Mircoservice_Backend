@@ -19,7 +19,7 @@ public class UserRegistrationModule extends Core {
 
 
 
-    private static MqttClient mqttClient;
+
 
    /* static {
         try {
@@ -33,29 +33,25 @@ public class UserRegistrationModule extends Core {
     static final Integer QoS = 0;
 
     public static void main(String[] args) {
-
+        MqttClient mqttClient;
+        MqttCallBack mqttCallBack;
         try {
 
             //=============== County ================
-            MqttClient mqttClientForCountry = MqttUtils.getMqttClient();
-
-            MqttCallBack mqttCallBackForCountry = new MqttCallBack();
-            mqttCallBackForCountry.setPublishedTopic(countryPublishedTopic);
-            mqttClientForCountry.setCallback(mqttCallBackForCountry);
-            mqttClientForCountry.subscribe(countrySubscriptionTopic, QoS);
+            mqttClient = MqttUtils.getMqttClient();
+            mqttCallBack = new MqttCallBack();
+            mqttCallBack.setPublishedTopic(countryPublishedTopic);
+            mqttClient.setCallback(mqttCallBack);
+            mqttClient.subscribe(countrySubscriptionTopic, QoS);
             //=============== County ================
 
 
             //=============== Vat Rat ================
-            MqttClient mqttClientForVat = MqttUtils.getMqttClient();
-
-            mqttClientForVat = MqttUtils.getMqttClient();
-            MqttCallBack mqttCallBackForVat = new MqttCallBack();
-            mqttCallBackForVat.setPublishedTopic(vatPublishedTopic);
-            mqttClientForVat.setCallback(mqttCallBackForVat);
-            mqttClientForVat.subscribe(vatSubscriptionTopic, QoS);
-
-
+            mqttClient = MqttUtils.getMqttClient();
+            mqttCallBack = new MqttCallBack();
+            mqttCallBack.setPublishedTopic(vatPublishedTopic);
+            mqttClient.setCallback(mqttCallBack);
+            mqttClient.subscribe(vatSubscriptionTopic, QoS);
             //=============== Vat Rat ================
 
 
