@@ -17,7 +17,6 @@ import nybsys.tillboxweb.MessageModel.RequestMessage;
 import nybsys.tillboxweb.MessageModel.ResponseMessage;
 import nybsys.tillboxweb.Utils.TillBoxUtils;
 import nybsys.tillboxweb.appenum.TillBoxAppEnum;
-import nybsys.tillboxweb.broker.client.PublisherForRollBackAndCommit;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.hibernate.SessionFactory;
@@ -46,7 +45,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class Core {
     private static final Logger log = LoggerFactory.getLogger(Core.class);
     private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-    protected static final ObjectMapper jsonMapper = new ObjectMapper()
+    public static final ObjectMapper jsonMapper = new ObjectMapper()
             .configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false)
             .configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT.FAIL_ON_UNKNOWN_PROPERTIES, false);
             //.setDateFormat(dateFormat);
@@ -66,8 +65,7 @@ public abstract class Core {
     public static BaseHistoryEntity HistoryEntity;
     public static final ThreadLocal<String> messageId = new ThreadLocal<>();
 
-    public static final PublisherForRollBackAndCommit publisherForRollBackAndCommit
-            = new PublisherForRollBackAndCommit();
+
 
     public static final ThreadLocal<ClientMessage> clientMessage = new ThreadLocal<>();
     public static final ThreadLocal<String> userId = new ThreadLocal<>();
@@ -380,15 +378,7 @@ public abstract class Core {
         }
     }
 
-    public void rollBack() {
-        String messageId = Core.messageId.get();
-        Core.publisherForRollBackAndCommit.publishedMessageForRollBack(messageId);
-    }
 
-    public void commit() {
-        String messageId = Core.messageId.get();
-        Core.publisherForRollBackAndCommit.publishedMessageForCommit(messageId);
-    }
 
     public static <M> List<M> convertResponseToList(ResponseMessage responseMessage, M model) throws Exception {
         List<M> finalList = new ArrayList<>();

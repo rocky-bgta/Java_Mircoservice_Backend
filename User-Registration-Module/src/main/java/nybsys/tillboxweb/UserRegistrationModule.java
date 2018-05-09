@@ -1,58 +1,50 @@
 package nybsys.tillboxweb;
 
-import nybsys.tillboxweb.TillBoxWebHistoryEntity.History;
-import nybsys.tillboxweb.broker.client.Subscriber;
-import nybsys.tillboxweb.controller.ApiRouter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Component;
-
-import static nybsys.tillboxweb.constant.ControllerSubscriptionConstants.WEB_API_USER_REGISTRATION_TOPIC;
-import static nybsys.tillboxweb.constant.WorkerSubscriptionConstants.WORKER_USER_REGISTRATION_MODULE_TOPIC;
+import nybsys.tillboxweb.broker.client.MqttCallBack;
+import nybsys.tillboxweb.broker.client.MqttUtils;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
 /**
  * UserRegistrationModule
  *
  */
 
-@Component
+//@Component
 public class UserRegistrationModule extends Core
 {
 
-    @Autowired
-    private ApiRouter apiRouter;
+    final static String countrySubscriptionTopic="countryPublishedTopic";
+    private static MqttClient mqttClient;
 
-    private Subscriber subscriber;
-
-    private static final Logger log = LoggerFactory.getLogger(UserRegistrationModule.class);
-
-
-    private void start() {
-        log.info("Start TillBoxWeb Back End");
-        this.subscriber = new Subscriber(WORKER_USER_REGISTRATION_MODULE_TOPIC,WEB_API_USER_REGISTRATION_TOPIC,apiRouter);
-        try{
-            this.subscriber.subscribe();
-
-            if(Core.HistoryEntity==null)
-                Core.HistoryEntity = new History();
-
-            this.setDefaultDateBase();
-            log.info("User Registration Module Subscribe Successful at Back End");
+    static {
+        try {
+            mqttClient = MqttUtils.getMqttClient();
         }catch (Exception ex){
-            log.info("Subscribe Failed");
             ex.printStackTrace();
         }
     }
 
+
+    static final Integer QoS=0;
     public static void main( String[] args )
     {
-        AnnotationConfigApplicationContext applicationContext =
-                new AnnotationConfigApplicationContext();
-        applicationContext.scan("nybsys.tillboxweb");
-        applicationContext.refresh();
-        UserRegistrationModule appMain = applicationContext.getBean(UserRegistrationModule.class);
-        appMain.start();
+
+
+
+        try {
+            MqttCallBack mqttCallBack = new MqttCallBack();
+            String connectionUrl = MqttUtils.getConnectionUrl();
+            MqttConnectOptions mqttConnectOptions = MqttUtils.getMqttConnectOptions();
+            MqttClient mqttClient = MqttUtils.getMqttClient(connectionUrl, mqttConnectOptions);
+            mqttClient.setCallback(mqttCallBack);
+
+            mqttClient.setCallback(mqttCallBack);
+            mqttClient.subscribe(countrySubscriptionTopic,QoS);
+            System.out.println("Back end stared");
+
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
     }
 }

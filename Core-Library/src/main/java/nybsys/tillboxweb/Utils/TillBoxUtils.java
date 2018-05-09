@@ -3,7 +3,6 @@ package nybsys.tillboxweb.Utils;
 //import com.nybsys.tillboxweb.dbConfig.PersistenceConfig;
 
 
-import nybsys.tillboxweb.broker.client.WorkersStatus;
 import nybsys.tillboxweb.constant.TillBoxDbConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.SessionFactory;
@@ -25,7 +24,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
-import java.util.concurrent.CyclicBarrier;
 
 import static java.time.temporal.TemporalAdjusters.lastDayOfMonth;
 
@@ -311,11 +309,6 @@ public final class TillBoxUtils {
             e.printStackTrace();
         }
         return date;
-    }
-
-    public static CyclicBarrier getBarrier(int numberOfRequest, Object lock) {
-        CyclicBarrier barrier = new CyclicBarrier(numberOfRequest, new WorkersStatus(lock));
-        return barrier;
     }
 
 

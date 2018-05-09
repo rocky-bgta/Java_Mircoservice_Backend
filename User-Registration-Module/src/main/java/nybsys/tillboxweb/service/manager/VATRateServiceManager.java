@@ -37,51 +37,6 @@ public class VATRateServiceManager extends BaseService {
 
     private VATRateBllManager VATRateBllManager=new VATRateBllManager();
 
-    public ResponseMessage save(RequestMessage requestMessage) {
-        ResponseMessage responseMessage = new ResponseMessage();
-        VATRateModel VATRateModel = new VATRateModel();
-        try {
-            if (requestMessage.businessID == null || requestMessage.businessID == 0) {
-                responseMessage.responseCode = TillBoxAppConstant.FAILED_ERROR_CODE;
-                responseMessage.message = MessageConstant.SELECT_A_BUSINESS;
-                Core.clientMessage.get().userMessage = MessageConstant.SELECT_A_BUSINESS;
-                return responseMessage;
-            }
-
-            VATRateModel = Core.getRequestObject(requestMessage, VATRateModel.class);
-            VATRateModel.setBusinessID(requestMessage.businessID);
-
-            /* Set<ConstraintViolation<CurrencyModel>> violations = this.validator.validate(currencyModel);
-             for (ConstraintViolation<BusinessModel> violation : violations) {
-                 log.error(violation.getMessage());
-             }*/
-
-            VATRateModel = this.VATRateBllManager.saveVATRate(VATRateModel);
-
-            responseMessage.responseObj = VATRateModel;
-
-            if (Core.clientMessage.get().messageCode == null) {
-                responseMessage.responseCode = TillBoxAppConstant.SUCCESS_CODE;
-                responseMessage.message = MessageConstant.COMPANY_DETAIL_SAVE_SUCCESSFULLY;
-                this.commit();
-            } else {
-                responseMessage.responseCode = TillBoxAppConstant.FAILED_ERROR_CODE;
-                if (Core.clientMessage.get().userMessage != null) {
-                    responseMessage.message = Core.clientMessage.get().userMessage;
-                } else {
-                    responseMessage.message = MessageConstant.COMPANY_DETAIL_SAVE_FAILED;
-                }
-                this.rollBack();
-            }
-        } catch (Exception ex) {
-            responseMessage = this.getDefaultResponseMessage(requestMessage.requestObj, MessageConstant.OPERATION_FAILED, TillBoxAppConstant.UN_PROCESSABLE_REQUEST);
-            this.WriteExceptionLog(ex);
-            this.rollBack();
-            log.error("VATRateServiceManager -> save got exception");
-
-        }
-        return responseMessage;
-    }
 
 
     public ResponseMessage search(RequestMessage requestMessage) {

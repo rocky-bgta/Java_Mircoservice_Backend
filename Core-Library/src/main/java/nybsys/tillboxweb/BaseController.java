@@ -4,17 +4,11 @@ package nybsys.tillboxweb;
 import nybsys.tillboxweb.MessageModel.*;
 import nybsys.tillboxweb.Utils.TillBoxUtils;
 import nybsys.tillboxweb.appenum.TillBoxAppEnum;
-import nybsys.tillboxweb.broker.client.BrokerClient;
-import nybsys.tillboxweb.broker.client.CallBackForSecurity;
-import nybsys.tillboxweb.broker.client.PublisherForSecurity;
-import nybsys.tillboxweb.constant.BrokerConstant;
 import nybsys.tillboxweb.constant.BrokerMessageTopic;
 import nybsys.tillboxweb.constant.TillBoxAppConstant;
-import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -29,11 +23,7 @@ public abstract class BaseController extends Core {
     //@Async
     protected abstract void executeServiceManager(String serviceName, RequestMessage requestMessage);
 
-    @Autowired
-    private CallBackForSecurity callBackForSecurity;
 
-    @Autowired
-    private PublisherForSecurity publisherForSecurity;
 
     protected ResponseMessage responseMessage;
     protected SecurityResMessage securityResMessage;
@@ -99,33 +89,9 @@ public abstract class BaseController extends Core {
         //securityReqMessage. = requestMessage.businessID;
 
         Object lockObject = new Object();
-        MqttClient mqttClient = BrokerClient.mqttClient;
-        //CallBackForSecurity callBackForSecurity = new CallBackForSecurity(lockObject);
-        this.callBackForSecurity.setLockObject(lockObject);
-        //PublisherForSecurity publisherForSecurity;
-        mqttClient.setCallback(callBackForSecurity);
 
-        if (mqttClient.isConnected()) {
-            try {
-                // Subscription
-                //log.info("MessageID subscription: "+securityResponseTopic);
-                mqttClient.subscribe(securityResponseTopic, BrokerConstant.oneQoS);
-                //log.info(requestMessage.brokerMessage.messageId);
 
-                //publisherForSecurity = new PublisherForSecurity();
-                synchronized (lockObject) {
-                    publisherForSecurity.publishedMessage(securityRequestTopic, securityReqMessage);
-                    lockObject.wait(this.allowedTime);
-                    securityResMessage = callBackForSecurity.getSecurityResMessage();
-                    log.info("Security Response: "+ securityResMessage.messageId);
-                }
-                mqttClient.unsubscribe(securityResponseTopic);
 
-            } catch (Exception ex) {
-                ex.printStackTrace();
-                log.error("Error while security check: " + ex.getMessage());
-            }
-        }
         return securityResMessage;
     }
 
